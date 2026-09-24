@@ -19,7 +19,7 @@ bare name, and Save refuses a name with a path in it.
 
 ## What is here, and what is not
 
-Every file named by a `CATALOG` row - 40 pieces - plus `traced-lines.json`, the
+Every file named by a `CATALOG` row - 46 pieces - plus `traced-lines.json`, the
 manifest the traced-line generator writes beside its pieces.
 
 Nine of the 40 are **also** in nest-optimizer's `library/`, because checks
@@ -41,6 +41,7 @@ pointing at it), from nest-optimizer:
 | `patch_*` (Skins) | `tools/nso_skin_fine_samples.js` | `npm run skin:fine-fixtures` |
 | `traced_*`, `traced-lines.json` | `tools/nso_raster_library_samples.js` | `npm run raster:library` |
 | `shape-*`, `cube-*`, `plate-20x20x2`, `bar-20x5x5` | copies of `fixtures/quick/` | `npm run quick:test` |
+| `shape-*_*` (damaged Test Fixtures) | copies of `fixtures/damage/`, by `tools/nso_damage_make_fixtures.js` | `npm run damage:fixtures`, `npm run damage:test` |
 
 nest-optimizer's CI checks this repo's `main` out beside the suite, so those
 comparisons run on every push there.
@@ -67,6 +68,16 @@ crossing-bridge bug.
 10 mm piece with a 1 mm wall), built at 32 segments. `cube-6mm`, `cube-9mm`,
 `cube-12mm`, `plate-20x20x2` and `bar-20x5x5` are twelve triangles each. All
 thirteen rest on z = 0; `box_open` and `box_closed` do not.
+
+### Damaged on purpose: `shape-*_<defect>`
+
+Six Test Fixtures, each a clean `fixtures/quick/` piece with ONE controlled
+defect from nest-optimizer's `tools/nso_damage.js`: `shape-sphere_hole`,
+`shape-sphere_holes-shredded`, `shape-tube_severed`, `shape-sphere_nm-duplicate`,
+`shape-sphere_winding-flip`, `shape-torus_weld-collide`. They are meant to
+fail the checker (except `shape-tube_severed`, a valid solid whose genus says
+the ring was cut). nest-optimizer's `fixtures/damage/damage.json` holds the
+exact census the checker must read off each; see its `docs/DAMAGE.md`.
 
 ## Not CSG-safe: `box_closed.stl`
 
