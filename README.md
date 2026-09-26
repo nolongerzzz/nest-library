@@ -19,10 +19,10 @@ bare name, and Save refuses a name with a path in it.
 
 ## What is here, and what is not
 
-Every file named by a `CATALOG` row - 46 pieces - plus `traced-lines.json`, the
+Every file named by a `CATALOG` row - 52 pieces - plus `traced-lines.json`, the
 manifest the traced-line generator writes beside its pieces.
 
-Nine of the 40 are **also** in nest-optimizer's `library/`, because checks
+Nine of them are **also** in nest-optimizer's `library/`, because checks
 there load them by name (`pin`, `box_closed`, `box_bit_12x8x8`,
 `box_hull_80x40x20`, `box_hull_80x40x20-2`, `hinge_knuckle_box`, `USB_bit`,
 `tape_on-edge-single`, `v9_mirror_factory`). The two copies are the same bytes,
@@ -42,6 +42,7 @@ pointing at it), from nest-optimizer:
 | `traced_*`, `traced-lines.json` | `tools/nso_raster_library_samples.js` | `npm run raster:library` |
 | `shape-*`, `cube-*`, `plate-20x20x2`, `bar-20x5x5` | copies of `fixtures/quick/` | `npm run quick:test` |
 | `shape-*_*` (damaged Test Fixtures) | copies of `fixtures/damage/`, by `tools/nso_damage_make_fixtures.js` | `npm run damage:fixtures`, `npm run damage:test` |
+| `feature-hull_*` (feature Test Fixtures) | copies of `fixtures/features/`, by `tools/nso_features_make_fixtures.js` | `npm run features:fixtures`, `npm run features:test` |
 
 nest-optimizer's CI checks this repo's `main` out beside the suite, so those
 comparisons run on every push there.
@@ -78,6 +79,18 @@ defect from nest-optimizer's `tools/nso_damage.js`: `shape-sphere_hole`,
 fail the checker (except `shape-tube_severed`, a valid solid whose genus says
 the ring was cut). nest-optimizer's `fixtures/damage/damage.json` holds the
 exact census the checker must read off each; see its `docs/DAMAGE.md`.
+
+### Known features on one hull: `feature-hull_*`
+
+Six Test Fixtures from nest-optimizer's `tools/nso_features.js`. Each one is a
+120 x 70 x 40 box with real functional features built from explicit
+geometric definitions: `feature-hull_all` (all five, one per face), then one
+file per feature alone: `feature-hull_flange`, `feature-hull_handle`,
+`feature-hull_bracket`, `feature-hull_lid` and `feature-hull_hinge`. Every one
+is a valid solid. The lid encloses a void, and the hinge's leaf is a second,
+captive body. nest-optimizer's `fixtures/features/features.json` holds each
+feature's ground truth: its root, its cell, its volume, and what the checker
+and the flange detector must read. See its `docs/FEATURES.md`.
 
 ## Not CSG-safe: `box_closed.stl`
 
